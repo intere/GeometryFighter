@@ -36,7 +36,7 @@ class GameHelper {
     var highScore:Int
     var lastScore:Int
     var lives:Int
-    var state = GameStateType.TapToPlay
+    var state: GameStateType = GameStateType.TapToPlay
     
     var hudNode:SCNNode!
     var labelNode:SKLabelNode!
@@ -94,12 +94,20 @@ class GameHelper {
         hudNode = SCNNode(geometry: plane)
         hudNode.name = "HUD"
         hudNode.rotation = SCNVector4(x: 1, y: 0, z: 0, w: 3.14159265)
+
+        loadSounds()
     }
     
     func updateHUD() {
         let scoreFormatted = String(format: "%0\(4)d", score)
         let highScoreFormatted = String(format: "%0\(4)d", highScore)
         labelNode.text = "❤️\(lives)  😎\(highScoreFormatted) 💥\(scoreFormatted)"
+    }
+
+    func loadSounds() {
+        for sound in ["ExplodeBad", "ExplodeGood", "GameOver", "SpawnBad", "SpawnGood"] {
+            loadSound(sound, fileNamed: "GeometryFighter.scnassets/Sounds/\(sound).wav")
+        }
     }
     
     func loadSound(name:String, fileNamed:String) {

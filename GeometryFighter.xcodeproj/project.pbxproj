@@ -25,7 +25,7 @@
 		362D61B21CE0099500F8A679 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61AB1CE0099500F8A679 /* UIColor+Extensions.swift */; };
 		362D61B71CE012BF00F8A679 /* Trail.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 362D61B51CE012BF00F8A679 /* Trail.scnp */; };
 		362D61B81CE012BF00F8A679 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 362D61B61CE012BF00F8A679 /* spark.png */; };
-		362D61BA1CE0186900F8A679 /* Explode.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 362D61B91CE0186900F8A679 /* Explode.scnp */; };
+		362D61BC1CE0B46F00F8A679 /* Explode.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 362D61BB1CE0B46E00F8A679 /* Explode.scnp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +70,7 @@
 		362D61AB1CE0099500F8A679 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		362D61B51CE012BF00F8A679 /* Trail.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Trail.scnp; sourceTree = "<group>"; };
 		362D61B61CE012BF00F8A679 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
-		362D61B91CE0186900F8A679 /* Explode.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Explode.scnp; sourceTree = "<group>"; };
+		362D61BB1CE0B46E00F8A679 /* Explode.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Explode.scnp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,9 +202,9 @@
 		362D61B41CE0129500F8A679 /* Particles */ = {
 			isa = PBXGroup;
 			children = (
+				362D61BB1CE0B46E00F8A679 /* Explode.scnp */,
 				362D61B51CE012BF00F8A679 /* Trail.scnp */,
 				362D61B61CE012BF00F8A679 /* spark.png */,
-				362D61B91CE0186900F8A679 /* Explode.scnp */,
 			);
 			name = Particles;
 			sourceTree = "<group>";
@@ -319,7 +319,7 @@
 				362D617A1CE001AB00F8A679 /* LaunchScreen.storyboard in Resources */,
 				362D61771CE001AB00F8A679 /* Assets.xcassets in Resources */,
 				362D61751CE001AB00F8A679 /* Main.storyboard in Resources */,
-				362D61BA1CE0186900F8A679 /* Explode.scnp in Resources */,
+				362D61BC1CE0B46F00F8A679 /* Explode.scnp in Resources */,
 				362D619F1CE003A400F8A679 /* GeometryFighter.scnassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

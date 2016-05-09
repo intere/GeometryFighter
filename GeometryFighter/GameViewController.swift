@@ -15,6 +15,7 @@ class GameViewController: UIViewController {
     var scnView: SCNView!
     var scnScene: SCNScene!
     var cameraNode: SCNNode!
+    var splashNodes:[String:SCNNode] = [:]
 
     var game = GameHelper.sharedInstance
     var spawnTime:NSTimeInterval = 0
@@ -25,6 +26,7 @@ class GameViewController: UIViewController {
         setupScene()
         setupCamera()
         setupHUD()
+        setupSplash()
     }
 
     override func shouldAutorotate() -> Bool {
@@ -39,13 +41,27 @@ class GameViewController: UIViewController {
         guard let touch = touches.first else {
             return
         }
-        let location = touch.locationInView(scnView)
-        let hitResults = scnView.hitTest(location, options: nil)
-        if hitResults.count > 0 {
-            guard let result = hitResults.first else {
-                return
+
+
+        switch game.state {
+        case .GameOver:
+            return
+
+        case .TapToPlay:
+            game.reset()
+            game.state = .Playing
+            showSplash("")
+            return
+
+        case .Playing:
+            let location = touch.locationInView(scnView)
+            let hitResults = scnView.hitTest(location, options: nil)
+            if hitResults.count > 0 {
+                guard let result = hitResults.first where result.node != game.hudNode else {
+                    return
+                }
+                handleTouchFor(result.node)
             }
-            handleTouchFor(result.node)
         }
     }
 
@@ -56,13 +72,13 @@ class GameViewController: UIViewController {
 extension GameViewController : SCNSceneRendererDelegate {
 
     func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
-        if time > spawnTime {
-            spawnShape()
-
-            spawnTime = time + NSTimeInterval(Float.random(min: 0.2, max: 1.5))
+        if game.state == .Playing {
+            if time > spawnTime {
+                spawnShape()
+                spawnTime = time + NSTimeInterval(Float.random(min: 0.2, max: 1.5))
+            }
+            cleanScene()
         }
-
-        cleanScene()
         game.updateHUD()
     }
 
@@ -91,6 +107,14 @@ private extension GameViewController {
         scnScene.background.contents = "GeometryFighter.scnassets/Textures/Background_Diffuse.png"
     }
 
+    func setupSplash() {
+        splashNodes["TapToPlay"] = createSplash("TAPTOPLAY",
+                                                imageFileName: "GeometryFighter.scnassets/Textures/TapToPlay_Diffuse.png")
+        splashNodes["GameOver"] = createSplash("GAMEOVER",
+                                               imageFileName: "GeometryFighter.scnassets/Textures/GameOver_Diffuse.png")
+        showSplash("TapToPlay")
+    }
+
     func setupCamera() {
         cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
@@ -109,7 +133,7 @@ private extension GameViewController {
 
 private extension GameViewController {
 
-    func spawnShape() {
+    func generateGeometry() -> SCNGeometry {
         var geometry: SCNGeometry
 
         let shapeType = ShapeType.random()
@@ -134,6 +158,12 @@ private extension GameViewController {
             geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
         }
 
+        return geometry
+    }
+
+    func spawnShape() {
+        let geometry = generateGeometry()
+
         let color = UIColor.random()
         geometry.materials.first?.diffuse.contents = color
         let geometryNode = SCNNode(geometry: geometry)
@@ -144,25 +174,15 @@ private extension GameViewController {
 
         if color == UIColor.blackColor() {
             geometryNode.name = "BAD"
+            game.playSound(scnScene.rootNode, name: "SpawnBad")
         } else {
             geometryNode.name = "GOOD"
+            game.playSound(scnScene.rootNode, name: "SpawnGood")
         }
 
         geometryNode.physicsBody = SCNPhysicsBody(type: .Dynamic, shape: nil)
         scnScene.rootNode.addChildNode(geometryNode)
         pushShape(geometryNode)
-    }
-
-    func handleTouchFor(node: SCNNode) {
-        createExplosion(node.geometry!, position: node.presentationNode.position,
-                        rotation: node.presentationNode.rotation)
-        if node.name == "GOOD" {
-            game.score += 1
-            node.removeFromParentNode()
-        } else if node.name == "BAD" {
-            game.lives -= 1
-            node.removeFromParentNode()
-        }
     }
 
     func pushShape(geometryNode: SCNNode) {
@@ -204,5 +224,57 @@ private extension GameViewController {
         let transformMatrix = SCNMatrix4Mult(rotationMatrix, translationMatrix)
         scnScene.addParticleSystem(explosion, withTransform: transformMatrix)
     }
-    
+
+    func handleTouchFor(node: SCNNode) {
+        createExplosion(node.geometry!, position: node.presentationNode.position,
+                        rotation: node.presentationNode.rotation)
+        if node.name == "GOOD" {
+            handleGoodCollision()
+        } else if node.name == "BAD" {
+            handleBadCollision()
+        }
+        node.removeFromParentNode()
+    }
+
+    func handleGoodCollision() {
+        game.score += 1
+        game.playSound(scnScene.rootNode, name: "ExplodeGood")
+    }
+
+    func handleBadCollision() {
+        game.lives -= 1
+        game.playSound(scnScene.rootNode, name: "ExplodeBad")
+        game.shakeNode(cameraNode)
+
+        if game.lives <= 0 {
+            game.saveState()
+            showSplash("GameOver")
+            game.playSound(scnScene.rootNode, name: "GameOver")
+            game.state = .GameOver
+            scnScene.rootNode.runAction(SCNAction.waitForDurationThenRunBlock(5) { (node:SCNNode!) -> Void in
+                self.showSplash("TapToPlay")
+                self.game.state = .TapToPlay
+            })
+        }
+    }
+
+    func createSplash(name:String, imageFileName:String) -> SCNNode {
+        let plane = SCNPlane(width: 5, height: 5)
+        let splashNode = SCNNode(geometry: plane)
+        splashNode.position = SCNVector3(x: 0, y: 5, z: 0)
+        splashNode.name = name
+        splashNode.geometry?.materials.first?.diffuse.contents = imageFileName
+        scnScene.rootNode.addChildNode(splashNode)
+        return splashNode
+    }
+
+    func showSplash(splashName:String) {
+        for (name,node) in splashNodes {
+            if name == splashName {
+                node.hidden = false
+            } else {
+                node.hidden = true
+            }
+        }
+    }
 }
