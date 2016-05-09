@@ -12,95 +12,21 @@ import SceneKit
 
 class GameViewController: UIViewController {
 
+    var scnView: SCNView!
+    var scnScene: SCNScene!
+    var cameraNode: SCNNode!
+
+    var game = GameHelper.sharedInstance
+    var spawnTime:NSTimeInterval = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
-        // create and add a camera to the scene
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        scene.rootNode.addChildNode(cameraNode)
-        
-        // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
-        
-        // create and add a light to the scene
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light!.type = SCNLightTypeOmni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-        scene.rootNode.addChildNode(lightNode)
-        
-        // create and add an ambient light to the scene
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = SCNLightTypeAmbient
-        ambientLightNode.light!.color = UIColor.darkGrayColor()
-        scene.rootNode.addChildNode(ambientLightNode)
-        
-        // retrieve the ship node
-        let ship = scene.rootNode.childNodeWithName("ship", recursively: true)!
-        
-        // animate the 3d object
-        ship.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(0, y: 2, z: 0, duration: 1)))
-        
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        // set the scene to the view
-        scnView.scene = scene
-        
-        // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
-        
-        // show statistics such as fps and timing information
-        scnView.showsStatistics = true
-        
-        // configure the view
-        scnView.backgroundColor = UIColor.blackColor()
-        
-        // add a tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
-        scnView.addGestureRecognizer(tapGesture)
+        setupView()
+        setupScene()
+        setupCamera()
+        setupHUD()
     }
-    
-    func handleTap(gestureRecognize: UIGestureRecognizer) {
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        // check what nodes are tapped
-        let p = gestureRecognize.locationInView(scnView)
-        let hitResults = scnView.hitTest(p, options: nil)
-        // check that we clicked on at least one object
-        if hitResults.count > 0 {
-            // retrieved the first clicked object
-            let result: AnyObject! = hitResults[0]
-            
-            // get its material
-            let material = result.node!.geometry!.firstMaterial!
-            
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.setAnimationDuration(0.5)
-            
-            // on completion - unhighlight
-            SCNTransaction.setCompletionBlock {
-                SCNTransaction.begin()
-                SCNTransaction.setAnimationDuration(0.5)
-                
-                material.emission.contents = UIColor.blackColor()
-                
-                SCNTransaction.commit()
-            }
-            
-            material.emission.contents = UIColor.redColor()
-            
-            SCNTransaction.commit()
-        }
-    }
-    
+
     override func shouldAutorotate() -> Bool {
         return true
     }
@@ -108,18 +34,175 @@ class GameViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
+
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+        let location = touch.locationInView(scnView)
+        let hitResults = scnView.hitTest(location, options: nil)
+        if hitResults.count > 0 {
+            guard let result = hitResults.first else {
+                return
+            }
+            handleTouchFor(result.node)
         }
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
+
+}
+
+// MARK: - SCNSceneRendererDelegate Methods
+
+extension GameViewController : SCNSceneRendererDelegate {
+
+    func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+        if time > spawnTime {
+            spawnShape()
+
+            spawnTime = time + NSTimeInterval(Float.random(min: 0.2, max: 1.5))
+        }
+
+        cleanScene()
+        game.updateHUD()
     }
 
+}
+
+// MARK: - Setup Methods
+
+private extension GameViewController {
+
+    func setupView() {
+        scnView = self.view as! SCNView
+        scnView.delegate = self
+        scnView.playing = true
+        setupDebug()
+    }
+
+    func setupDebug() {
+        scnView.showsStatistics = true
+//        scnView.allowsCameraControl = true
+        scnView.autoenablesDefaultLighting = true
+    }
+
+    func setupScene() {
+        scnScene = SCNScene()
+        scnView.scene = scnScene
+        scnScene.background.contents = "GeometryFighter.scnassets/Textures/Background_Diffuse.png"
+    }
+
+    func setupCamera() {
+        cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        cameraNode.position = SCNVector3(x: 0, y: 5, z: 10)
+        scnScene.rootNode.addChildNode(cameraNode)
+    }
+
+    func setupHUD() {
+        game.hudNode.position = SCNVector3(x: 0.0, y: 10.0, z: 0.0)
+        scnScene.rootNode.addChildNode(game.hudNode)
+    }
+
+}
+
+// MARK: - Helpers
+
+private extension GameViewController {
+
+    func spawnShape() {
+        var geometry: SCNGeometry
+
+        let shapeType = ShapeType.random()
+        print("Generating a \(shapeType) Shape")
+
+        switch shapeType {
+        case .Capsule:
+            geometry = SCNCapsule(capRadius: 0.5, height: 2)
+        case .Cone:
+            geometry = SCNCone(topRadius: 0, bottomRadius: 1, height: 1)
+        case .Cylider:
+            geometry = SCNCylinder(radius: 0.25, height: 1)
+        case .Pyramid:
+            geometry = SCNPyramid(width: 1, height: 1, length: 1)
+        case .Sphere:
+            geometry = SCNSphere(radius: 1)
+        case .Torus:
+            geometry = SCNTorus(ringRadius: 1, pipeRadius: 0.25)
+        case .Tube:
+            geometry = SCNTube(innerRadius: 0.25, outerRadius: 0.5, height: 1)
+        case .Box:
+            geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+        }
+
+        let color = UIColor.random()
+        geometry.materials.first?.diffuse.contents = color
+        let geometryNode = SCNNode(geometry: geometry)
+
+        if let trailEmitter = createTrail(color, geometry: geometry) {
+            geometryNode.addParticleSystem(trailEmitter)
+        }
+
+        if color == UIColor.blackColor() {
+            geometryNode.name = "BAD"
+        } else {
+            geometryNode.name = "GOOD"
+        }
+
+        geometryNode.physicsBody = SCNPhysicsBody(type: .Dynamic, shape: nil)
+        scnScene.rootNode.addChildNode(geometryNode)
+        pushShape(geometryNode)
+    }
+
+    func handleTouchFor(node: SCNNode) {
+        createExplosion(node.geometry!, position: node.presentationNode.position,
+                        rotation: node.presentationNode.rotation)
+        if node.name == "GOOD" {
+            game.score += 1
+            node.removeFromParentNode()
+        } else if node.name == "BAD" {
+            game.lives -= 1
+            node.removeFromParentNode()
+        }
+    }
+
+    func pushShape(geometryNode: SCNNode) {
+        let randomX = Float.random(min: -2, max: 2)
+        let randomY = Float.random(min: 10, max: 18)
+        let force = SCNVector3(x: randomX, y: randomY, z: 0)
+        let position = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
+        geometryNode.physicsBody?.applyForce(force, atPosition: position, impulse: true)
+    }
+
+    func cleanScene() {
+        for node in scnScene.rootNode.childNodes {
+            if node.presentationNode.position.y < -2 {
+                node.removeFromParentNode()
+            }
+        }
+    }
+
+    func createTrail(color: UIColor, geometry: SCNGeometry) -> SCNParticleSystem? {
+        guard let trail = SCNParticleSystem(named: "Trail.scnp", inDirectory: nil) else {
+            print("ERROR: Couldn't load the Trail particle system")
+            return nil
+        }
+        trail.particleColor = color
+        trail.emitterShape = geometry
+        return trail
+    }
+
+    func createExplosion(geometry: SCNGeometry, position: SCNVector3, rotation: SCNVector4) {
+        guard let explosion = SCNParticleSystem(named: "Explode.scnp", inDirectory: nil) else {
+            print("ERROR: Couldn't load the Explosion particle system")
+            return
+        }
+        explosion.emitterShape = geometry
+        explosion.birthLocation = .Surface
+
+        let rotationMatrix = SCNMatrix4MakeRotation(rotation.w, rotation.x, rotation.y, rotation.z)
+        let translationMatrix = SCNMatrix4MakeTranslation(position.x, position.y, position.z)
+        let transformMatrix = SCNMatrix4Mult(rotationMatrix, translationMatrix)
+        scnScene.addParticleSystem(explosion, withTransform: transformMatrix)
+    }
+    
 }
