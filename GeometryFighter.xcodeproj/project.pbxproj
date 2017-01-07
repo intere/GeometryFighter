@@ -16,16 +16,17 @@
 		362D61901CE001AC00F8A679 /* GeometryFighterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D618F1CE001AC00F8A679 /* GeometryFighterUITests.swift */; };
 		362D619F1CE003A400F8A679 /* GeometryFighter.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 362D619E1CE003A400F8A679 /* GeometryFighter.scnassets */; };
 		362D61A31CE0067B00F8A679 /* ShapeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A21CE0067B00F8A679 /* ShapeType.swift */; };
-		362D61AC1CE0099500F8A679 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A51CE0099500F8A679 /* Double+Extensions.swift */; };
-		362D61AD1CE0099500F8A679 /* Float+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A61CE0099500F8A679 /* Float+Extensions.swift */; };
+		362D61AC1CE0099500F8A679 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A51CE0099500F8A679 /* Double.swift */; };
+		362D61AD1CE0099500F8A679 /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A61CE0099500F8A679 /* Float.swift */; };
 		362D61AE1CE0099500F8A679 /* GameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A71CE0099500F8A679 /* GameHelper.swift */; };
 		362D61AF1CE0099500F8A679 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A81CE0099500F8A679 /* Generics.swift */; };
-		362D61B01CE0099500F8A679 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A91CE0099500F8A679 /* Int+Extensions.swift */; };
+		362D61B01CE0099500F8A679 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61A91CE0099500F8A679 /* Int.swift */; };
 		362D61B11CE0099500F8A679 /* SCNAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61AA1CE0099500F8A679 /* SCNAction+Extensions.swift */; };
-		362D61B21CE0099500F8A679 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61AB1CE0099500F8A679 /* UIColor+Extensions.swift */; };
+		362D61B21CE0099500F8A679 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362D61AB1CE0099500F8A679 /* UIColor.swift */; };
 		362D61B71CE012BF00F8A679 /* Trail.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 362D61B51CE012BF00F8A679 /* Trail.scnp */; };
 		362D61B81CE012BF00F8A679 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 362D61B61CE012BF00F8A679 /* spark.png */; };
 		362D61BC1CE0B46F00F8A679 /* Explode.scnp in Resources */ = {isa = PBXBuildFile; fileRef = 362D61BB1CE0B46E00F8A679 /* Explode.scnp */; };
+		938DFD591E206CEA004C54B3 /* GameSceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938DFD581E206CEA004C54B3 /* GameSceneManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,16 +62,17 @@
 		362D61911CE001AC00F8A679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		362D619E1CE003A400F8A679 /* GeometryFighter.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = GeometryFighter.scnassets; sourceTree = "<group>"; };
 		362D61A21CE0067B00F8A679 /* ShapeType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeType.swift; sourceTree = "<group>"; };
-		362D61A51CE0099500F8A679 /* Double+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
-		362D61A61CE0099500F8A679 /* Float+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Float+Extensions.swift"; sourceTree = "<group>"; };
+		362D61A51CE0099500F8A679 /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Double.swift; path = GameUtils/Double.swift; sourceTree = "<group>"; };
+		362D61A61CE0099500F8A679 /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Float.swift; path = GameUtils/Float.swift; sourceTree = "<group>"; };
 		362D61A71CE0099500F8A679 /* GameHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameHelper.swift; sourceTree = "<group>"; };
 		362D61A81CE0099500F8A679 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
-		362D61A91CE0099500F8A679 /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		362D61A91CE0099500F8A679 /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Int.swift; path = GameUtils/Int.swift; sourceTree = "<group>"; };
 		362D61AA1CE0099500F8A679 /* SCNAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNAction+Extensions.swift"; sourceTree = "<group>"; };
-		362D61AB1CE0099500F8A679 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		362D61AB1CE0099500F8A679 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIColor.swift; path = GameUtils/UIColor.swift; sourceTree = "<group>"; };
 		362D61B51CE012BF00F8A679 /* Trail.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Trail.scnp; sourceTree = "<group>"; };
 		362D61B61CE012BF00F8A679 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		362D61BB1CE0B46E00F8A679 /* Explode.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = Explode.scnp; sourceTree = "<group>"; };
+		938DFD581E206CEA004C54B3 /* GameSceneManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		362D616C1CE001AB00F8A679 /* GeometryFighter */ = {
 			isa = PBXGroup;
 			children = (
+				938DFD571E206A2D004C54B3 /* Extensions */,
 				362D61B31CE00A5300F8A679 /* Controllers */,
 				362D61A41CE0099500F8A679 /* GameUtils */,
 				362D61A11CE0066D00F8A679 /* Models */,
@@ -180,13 +183,9 @@
 		362D61A41CE0099500F8A679 /* GameUtils */ = {
 			isa = PBXGroup;
 			children = (
-				362D61A51CE0099500F8A679 /* Double+Extensions.swift */,
-				362D61A61CE0099500F8A679 /* Float+Extensions.swift */,
 				362D61A71CE0099500F8A679 /* GameHelper.swift */,
 				362D61A81CE0099500F8A679 /* Generics.swift */,
-				362D61A91CE0099500F8A679 /* Int+Extensions.swift */,
 				362D61AA1CE0099500F8A679 /* SCNAction+Extensions.swift */,
-				362D61AB1CE0099500F8A679 /* UIColor+Extensions.swift */,
 			);
 			path = GameUtils;
 			sourceTree = "<group>";
@@ -195,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				362D61711CE001AB00F8A679 /* GameViewController.swift */,
+				938DFD581E206CEA004C54B3 /* GameSceneManager.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -207,6 +207,17 @@
 				362D61B61CE012BF00F8A679 /* spark.png */,
 			);
 			name = Particles;
+			sourceTree = "<group>";
+		};
+		938DFD571E206A2D004C54B3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				362D61A51CE0099500F8A679 /* Double.swift */,
+				362D61A61CE0099500F8A679 /* Float.swift */,
+				362D61A91CE0099500F8A679 /* Int.swift */,
+				362D61AB1CE0099500F8A679 /* UIColor.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,19 +283,22 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Eric Internicola";
 				TargetAttributes = {
 					362D61691CE001AA00F8A679 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 268S5GJFWZ;
+						LastSwiftMigration = 0820;
 					};
 					362D617F1CE001AC00F8A679 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 						TestTargetID = 362D61691CE001AA00F8A679;
 					};
 					362D618A1CE001AC00F8A679 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 						TestTargetID = 362D61691CE001AA00F8A679;
 					};
 				};
@@ -345,14 +359,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				362D61AD1CE0099500F8A679 /* Float+Extensions.swift in Sources */,
-				362D61B21CE0099500F8A679 /* UIColor+Extensions.swift in Sources */,
-				362D61AC1CE0099500F8A679 /* Double+Extensions.swift in Sources */,
+				938DFD591E206CEA004C54B3 /* GameSceneManager.swift in Sources */,
+				362D61AD1CE0099500F8A679 /* Float.swift in Sources */,
+				362D61B21CE0099500F8A679 /* UIColor.swift in Sources */,
+				362D61AC1CE0099500F8A679 /* Double.swift in Sources */,
 				362D61B11CE0099500F8A679 /* SCNAction+Extensions.swift in Sources */,
 				362D61AF1CE0099500F8A679 /* Generics.swift in Sources */,
 				362D61721CE001AB00F8A679 /* GameViewController.swift in Sources */,
 				362D61A31CE0067B00F8A679 /* ShapeType.swift in Sources */,
-				362D61B01CE0099500F8A679 /* Int+Extensions.swift in Sources */,
+				362D61B01CE0099500F8A679 /* Int.swift in Sources */,
 				362D616E1CE001AB00F8A679 /* AppDelegate.swift in Sources */,
 				362D61AE1CE0099500F8A679 /* GameHelper.swift in Sources */,
 			);
@@ -423,8 +438,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -469,8 +486,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -489,6 +508,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -503,6 +523,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.GeometryFighter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -515,6 +536,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.GeometryFighter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -527,6 +549,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.GeometryFighterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GeometryFighter.app/GeometryFighter";
 			};
 			name = Debug;
@@ -539,6 +562,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.GeometryFighterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GeometryFighter.app/GeometryFighter";
 			};
 			name = Release;
@@ -551,6 +575,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.GeometryFighterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = GeometryFighter;
 			};
 			name = Debug;
@@ -562,6 +587,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.colasoft.GeometryFighterUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = GeometryFighter;
 			};
 			name = Release;
@@ -585,6 +611,7 @@
 				362D61961CE001AD00F8A679 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		362D61971CE001AD00F8A679 /* Build configuration list for PBXNativeTarget "GeometryFighterTests" */ = {
 			isa = XCConfigurationList;
@@ -593,6 +620,7 @@
 				362D61991CE001AD00F8A679 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		362D619A1CE001AD00F8A679 /* Build configuration list for PBXNativeTarget "GeometryFighterUITests" */ = {
 			isa = XCConfigurationList;
@@ -601,6 +629,7 @@
 				362D619C1CE001AD00F8A679 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

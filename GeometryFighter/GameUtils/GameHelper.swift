@@ -25,9 +25,9 @@ import SceneKit
 import SpriteKit
 
 public enum GameStateType {
-    case Playing
-    case TapToPlay
-    case GameOver
+    case playing
+    case tapToPlay
+    case gameOver
 }
 
 class GameHelper {
@@ -36,7 +36,7 @@ class GameHelper {
     var highScore:Int
     var lastScore:Int
     var lives:Int
-    var state: GameStateType = GameStateType.TapToPlay
+    var state: GameStateType = GameStateType.tapToPlay
     
     var hudNode:SCNNode!
     var labelNode:SKLabelNode!
@@ -46,14 +46,14 @@ class GameHelper {
     
     var sounds:[String:SCNAudioSource] = [:]
     
-    private init() {
+    fileprivate init() {
         score = 0
         lastScore = 0
         highScore = 0
         lives = 3
-        let defaults = NSUserDefaults.standardUserDefaults()
-        score = defaults.integerForKey("lastScore")
-        highScore = defaults.integerForKey("highScore")
+        let defaults = UserDefaults.standard
+        score = defaults.integer(forKey: "lastScore")
+        highScore = defaults.integer(forKey: "highScore")
         
         initHUD()
     }
@@ -62,13 +62,13 @@ class GameHelper {
         
         lastScore = score
         highScore = max(score, highScore)
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setInteger(lastScore, forKey: "lastScore")
-        defaults.setInteger(highScore, forKey: "highScore")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        let defaults = UserDefaults.standard
+        defaults.set(lastScore, forKey: "lastScore")
+        defaults.set(highScore, forKey: "highScore")
+        UserDefaults.standard.synchronize()
     }
     
-    func getScoreString(length:Int) -> String {
+    func getScoreString(_ length:Int) -> String {
         return String(format: "%0\(length)d", score)
     }
    
@@ -86,8 +86,8 @@ class GameHelper {
         
         let plane = SCNPlane(width: 5, height: 1)
         let material = SCNMaterial()
-        material.lightingModelName = SCNLightingModelConstant
-        material.doubleSided = true
+        material.lightingModel = SCNMaterial.LightingModel.constant
+        material.isDoubleSided = true
         material.diffuse.contents = skScene
         plane.materials = [material]
         
@@ -110,7 +110,7 @@ class GameHelper {
         }
     }
     
-    func loadSound(name:String, fileNamed:String) {
+    func loadSound(_ name:String, fileNamed:String) {
         guard let sound = SCNAudioSource(fileNamed: fileNamed) else {
             print("Failed to load sound: \(fileNamed)")
             return
@@ -119,9 +119,9 @@ class GameHelper {
         sounds[name] = sound
     }
     
-    func playSound(node:SCNNode, name:String) {
+    func playSound(_ node:SCNNode, name:String) {
         let sound = sounds[name]
-        node.runAction(SCNAction.playAudioSource(sound!, waitForCompletion: false))
+        node.runAction(SCNAction.playAudio(sound!, waitForCompletion: false))
     }
     
     func reset() {
@@ -129,11 +129,11 @@ class GameHelper {
         lives = 3
     }
     
-    func shakeNode(node:SCNNode) {
-        let left = SCNAction.moveBy(SCNVector3(x: -0.2, y: 0.0, z: 0.0), duration: 0.05)
-        let right = SCNAction.moveBy(SCNVector3(x: 0.2, y: 0.0, z: 0.0), duration: 0.05)
-        let up = SCNAction.moveBy(SCNVector3(x: 0.0, y: 0.2, z: 0.0), duration: 0.05)
-        let down = SCNAction.moveBy(SCNVector3(x: 0.0, y: -0.2, z: 0.0), duration: 0.05)
+    func shakeNode(_ node:SCNNode) {
+        let left = SCNAction.move(by: SCNVector3(x: -0.2, y: 0.0, z: 0.0), duration: 0.05)
+        let right = SCNAction.move(by: SCNVector3(x: 0.2, y: 0.0, z: 0.0), duration: 0.05)
+        let up = SCNAction.move(by: SCNVector3(x: 0.0, y: 0.2, z: 0.0), duration: 0.05)
+        let down = SCNAction.move(by: SCNVector3(x: 0.0, y: -0.2, z: 0.0), duration: 0.05)
         
         node.runAction(SCNAction.sequence([
             left, up, down, right, left, right, down, up, right, down, left, up,
